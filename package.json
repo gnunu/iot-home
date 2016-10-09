@@ -1,0 +1,9 @@
+{
+    "name": "HappyHome",
+    "version": "0.0.1",
+    "description": "Home center",
+    "dependencies": {
+        "socket.io": "~0.9.6",
+        "mime": "~1.2.7"
+    }
+}
