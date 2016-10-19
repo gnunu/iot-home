@@ -57,17 +57,16 @@ var server = http.createServer(function(req, res) {
         serveStatic(res, cache, absPath);
         break;
     case 'POST':
-        process_post(req, res);
+        switch (req.url) {
+        case '/file':
+            process_file(req, res);
+            break;
+        default:
+            process_small(req, res);
+        }
         break;
     }
 });
-
-function process_post(req, res) {
-    if (isFormData(req))
-        process_file(req, res);
-    else
-        process_small(req, res);
-}
 
 function process_small(req, res) {
     var body = '';
@@ -79,13 +78,15 @@ function process_small(req, res) {
         console.log(body);
         var qs = require('querystring');
         var val = qs.parse(body);
-        var link = val.link;
-        var seed = val.seed;
-        if (link) {
+        switch (req.url) {
+        case '/link':
+            var link = val.link;
             console.log(link);
             res.writeHead(301, {Location: link});
             res.end();
-        } else if (seed) {
+            break;
+        case '/seed':
+            var seed = val.seed;
             console.log(seed);
             res.writeHead(301, {Location: 'http://localhost:3000/'});
             res.end();

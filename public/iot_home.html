@@ -8,17 +8,17 @@
 <div id='content'>
     <h1>Add download task</h1>
     <h2>Put download link here</h2>
-    <form method='post' id='link-form'>
+    <form method='post' action='/link' id='link-form'>
         <input id='link' type='text' name='link' /><br/>
         <input id='link-button' type='submit' value='Send' />
     </form>
     <h2>Put seed content here</h2>
-    <form method='post' id='seed-form'>
+    <form method='post' action='/seed' id='seed-form'>
         <input id='seed' type='textarea' name='seed' /><br/>
         <input id='seed-button' type='submit' value='Send' />
     </form>
     <h2>Send a seed file</h2>
-    <form method='post' id='file-form' enctype='multipart/form-data'>
+    <form method='post' action='file' id='file-form' enctype='multipart/form-data'>
         <input id='file' type='file' name='file' /><br/>
         <input id='file-button' type='submit' value='Upload' />
     </form>
