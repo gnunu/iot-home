@@ -4,6 +4,9 @@ var path = require('path');
 var mime = require('mime');
 var formidable = require('formidable');
 var cache = {};
+var connect = require('connect');
+var favicon = require('serve-favicon');
+var morgan = require('morgan');
 
 function send404(response) {
     response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -43,7 +46,7 @@ function serveStatic(response, cache, absPath) {
     }
 }
 
-var server = http.createServer(function(req, res) {
+function doTask(req, res) {
     var filePath = false;
 
     switch (req.method) {
@@ -61,12 +64,16 @@ var server = http.createServer(function(req, res) {
         case '/file':
             process_file(req, res);
             break;
-        default:
+        case '/link':
+        case '/seed':
             process_small(req, res);
+            break;
+        case '/delete':
+            break;
         }
         break;
     }
-});
+}
 
 function process_small(req, res) {
     var body = '';
@@ -112,6 +119,14 @@ function isFormData(req) {
     return 0 == type.indexOf('multipart/form-data');
 }
 
-server.listen(3000, function() {
+/*
+var server = http.createServer(doTask).listen(3000, function() {
     console.log("Server listening on port 3000");
 });
+*/
+
+var app = connect()
+.use(favicon('public/favicon.ico'))
+.use(morgan('short'))
+.use(doTask)
+.listen(3000);
